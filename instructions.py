@@ -2,7 +2,7 @@ import math
 # Constants
 MEM_SIZE = 2048
 SWAP_MEM_SIZE = 4096
-PAGE_SIZE = 16
+PAGINATION = 16
 STRATEGY = False # Will be revalued once main is run, for now it sets fifo as default
 # Memory
 M = [None] * MEM_SIZE
@@ -24,7 +24,7 @@ lru_next_swap = []
 
 # Finds next available page in swap memory, and returns it
 def findAvailableFrameInSwapMemory():
-    for i in range(0,SWAP_MEM_SIZE,PAGE_SIZE):
+    for i in range(0,SWAP_MEM_SIZE,PAGINATION):
         if(S[i]==None): return i
 
     print('La memoria de swap está llena. Se requiere más para completar la secuencia de procesos.')
@@ -36,7 +36,7 @@ def findAvailableFrameInSwapMemory():
 # val: process or value to set
 def loadPageToFrame(i, process, page):
     val = None if process == None and page == None else [process,page]
-    for j in range(0, PAGE_SIZE):
+    for j in range(0, PAGINATION):
         M[i + j] = val
             
 
@@ -45,7 +45,7 @@ def loadPageToFrame(i, process, page):
 # val: process or value to set
 def loadPageToSwap(i, process, page):
     val = None if process == None and page == None else [process,page]
-    for j in range(0, PAGE_SIZE):
+    for j in range(0, PAGINATION):
         S[i + j] = val
 
 # Puts the new process's new page into memory, in the next frame's current 
@@ -113,7 +113,7 @@ def A(d, p, m):
     if not p in proc_pages:
         print("\nError: no existe el proceso ", p, ".", sep="")
         return
-    if d < 0 or d > len(proc_pages[p]) * PAGE_SIZE:
+    if d < 0 or d > len(proc_pages[p]) * PAGINATION:
         print("\nError: la dirección virtual está fuera del rango de direcciones del proceso ", p, ".", sep="")
         return
     if m != 0 and m != 1:
@@ -122,9 +122,9 @@ def A(d, p, m):
 
     # Calculate the physical address.
     # The page number of the process (e.g. 0, 1, 2...)
-    page = math.floor(d / PAGE_SIZE)
+    page = math.floor(d / PAGINATION)
     # The displacement from the start of the page.
-    fraction, whole = math.modf(d / PAGE_SIZE)
+    fraction, whole = math.modf(d / PAGINATION)
     disp = int(round(fraction, 4) * 16)
     
     if page not in proc_pages[p]:
@@ -171,7 +171,7 @@ def P(n, p):
         return
     
     # Calculate how many pages are needed to load the process.
-    num_of_pages = math.ceil(n / PAGE_SIZE)
+    num_of_pages = math.ceil(n / PAGINATION)
 
     # Frames used.
     frames = []
@@ -212,7 +212,7 @@ def P(n, p):
                 current_page += 1
                 break
             # Move to next frame.
-            i += PAGE_SIZE
+            i += PAGINATION
 
     print("Se asignaron los marcos de página", frames, "al proceso", p)
 
