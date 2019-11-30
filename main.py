@@ -3,18 +3,15 @@ from instruction_parser import parse_instructions
 import instructions
 
 def main():
-    # Checks that strategy argument is given
-    if(len(sys.argv) < 2 or sys.argv[1] not in ['fifo', 'lru']):
-        print('Forma de uso: %s (fifo|lru)' % sys.argv[0])
+    Estrategia = input('Dame la estrategia (fifo o lru): ')
+    # print(Estrategia)
+    if(Estrategia != 'fifo' and Estrategia != 'lru'):
+        print('Solo se puede usar esas dos estrategias ')
         exit()
-    print('Utilizando ', sys.argv[1], ' como estrategia de remplazo')
-    """ 
-    Bool that sets strategy for simulation
-    true - uses fifo
-    false - uses lru		 
-    """
+    print('Utilizando ', Estrategia, ' como estrategia de remplazo')
+
     # Sets strategy on instructions
-    instructions.strategy = True if sys.argv[1] == 'fifo' else False
+    instructions.strategy = True if Estrategia == 'fifo' else False
 
     parsed_instructions = parse_instructions()
     for instruction in parsed_instructions:
