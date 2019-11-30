@@ -1,6 +1,8 @@
 import sys
-from instruction_parser import parse_instructions
+from instructionReader import parse_instructions
 import instructions
+
+#cambiar nombre de los archivos
 
 def main():
     Estrategia = input('Dame la estrategia (fifo o lru): ')
@@ -10,7 +12,7 @@ def main():
         exit()
     print('Utilizando ', Estrategia, ' como estrategia de remplazo')
 
-    # Sets strategy on instructions
+    #cAMBIAR NOMBRE DE INSTRUCTIONS
     instructions.strategy = True if Estrategia == 'fifo' else False
 
     parsed_instructions = parse_instructions()
